@@ -6,14 +6,15 @@ import { Header, Footer, Categorie } from "./components";
 
 //pages import
 import { Home, Ticket } from "./pages";
+import Posters from "./pages/posters/Posters";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ticket" element={<Ticket />} />
+        <Route path="/posters" element={<Posters />} />
       </Routes>
       <Footer />
     </BrowserRouter>

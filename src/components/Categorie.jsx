@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Posters from "../pages/posters/Posters";
 
 const Categorie = () => {
   return (
@@ -15,12 +17,14 @@ const Categorie = () => {
             <p className="mt-3 text-center text-xs">Stickers Étiquettes</p>
           </div>
           <div className="">
-            <img
-              src="../src/assets/POSTER-ICON.png"
-              alt=""
-              className="h12 ml-3 w-12 rounded-full"
-            />
-            <p className=" mt-3 text-center text-xs">Posters Affiches</p>
+            <Link to="/posters">
+              <img
+                src="../src/assets/POSTER-ICON.png"
+                alt=""
+                className="h12 ml-3 w-12 rounded-full"
+              />
+              <p className=" mt-3 text-center text-xs">Posters Affiches</p>
+            </Link>
           </div>
           <div className="">
             <img
