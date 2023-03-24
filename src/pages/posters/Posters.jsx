@@ -19,8 +19,12 @@ function Posters() {
     <div>
       <Header />
       <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
-      <div className="mx-4 mt-4 h-40 w-11/12 rounded-lg bg-red-600">
-        <img src="" alt="" />
+      <div className="mx-4 mt-4 mr-1 h-40 rounded-lg">
+        <img
+          src="../../src/assets/cover.png"
+          alt="posterimage"
+          className="w-12/12 mt-4 h-40 rounded-lg"
+        />
       </div>
       <p className="mr-16 mb-6 mt-6 ml-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
@@ -36,7 +40,7 @@ function Posters() {
         ))}
       </ul>
       <div className="mt-4 flex">
-        <p className="mr-16 mb-6 mt-4 ml-6 text-xl font-bold">
+        <p className="mr-11 mb-6 mt-4 ml-6 text-xl font-bold">
           Les Plus achetés
         </p>
         <p className="ml-16 mb-6 mt-5 text-sm">voir tout</p>
