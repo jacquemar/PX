@@ -1,0 +1,13 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10%;
+}
+
+.textInput {
+  margin: "30px";
+  width: "100%";
+}
