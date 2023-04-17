@@ -13,7 +13,6 @@ function Posters() {
     fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setProductList(data);
       })
       .catch((err) => {
@@ -26,7 +25,6 @@ function Posters() {
       acc.includes(product.category) ? acc : acc.concat(product.category),
     []
   );
-  console.log(categories);
 
   const genderList = productList.reduce(
     (acc, product) =>
@@ -34,12 +32,13 @@ function Posters() {
     []
   );
   const filterProduct = productList.filter(
-    (product) => product.category === "poster" || product.category === "Poster"
+    (product) =>
+      product.category === "sticker" || product.category === "Sticker"
   );
   return (
     <div>
       <Header />
-      <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
+      <h1 className="text-center text-xl font-black">STICKERS / ÉTIQUETTES</h1>
       <div className="mx-4 mt-4 mr-1 h-40 rounded-lg">
         <img
           src="../../src/assets/cover.png"

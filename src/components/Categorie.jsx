@@ -9,12 +9,14 @@ const Categorie = () => {
         <p className="mb-6 ml-6 text-xl font-bold">Categories</p>
         <div className="mx-12 grid grid-cols-4 justify-items-center pt-2">
           <div className="">
-            <img
-              src="../src/assets/STICKER-ICON.png"
-              alt="sticker-icon"
-              className="h12 ml-3 w-12"
-            />
-            <p className="mt-3 text-center text-xs">Stickers Étiquettes</p>
+            <Link to="/stickers">
+              <img
+                src="../src/assets/STICKER-ICON.png"
+                alt="sticker-icon"
+                className="h12 ml-3 w-12"
+              />
+              <p className="mt-3 text-center text-xs">Stickers Étiquettes</p>
+            </Link>
           </div>
           <div className="">
             <Link to="/posters">

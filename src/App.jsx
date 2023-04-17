@@ -8,6 +8,7 @@ import { Header, Footer, Categorie } from "./components";
 import { Home, Ticket } from "./pages";
 import Posters from "./pages/posters/Posters";
 import Admin from "./pages/admin/Admin";
+import Stickers from "./pages/Stickers/Stickers";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/posters" element={<Posters />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/stickers" element={<Stickers />} />
       </Routes>
       <Footer />
     </BrowserRouter>

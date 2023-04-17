@@ -1,79 +1,53 @@
 const express = require("express");
-const app = express();
+const app = require("./app");
 const http = require("http");
-const produits = require("./models/Produits");
+const produits = require("./models/Produit");
 const MongoClient = require("mongodb").MongoClient;
 app.use(express.json());
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use((req, res) => {
-  res.json({ message: "Votre requête a bien été reçue !" });
-});
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
 
-app.post("/addproduct", (req, res) => {
-  const produit = new produits({
-    ...req.body,
-  });
-  produit
-    .send()
-    .then(() => res.status(201).json({ message: "Objet enregistré !" }))
-    .catch((error) => res.status(400).json({ error }));
-});
-
-async function main() {
-  const uri =
-    "mongodb+srv://jacquemar:o85pxev28Rl0qapG@products.mht5fkp.mongodb.net/?retryWrites=true&writeConcern=majority";
-
-  const client = new MongoClient(uri);
-
-  try {
-    // Connect to the MongoDB cluster
-    await client.connect();
-
-    // Create 3 new listings
-    await createMultipleListings(client, [
-      {
-        name: "Infinite Views",
-        summary: "Modern home with infinite views from the infinity pool",
-        property_type: "House",
-        bedrooms: 5,
-        bathrooms: 4.5,
-        beds: 5,
-      },
-      {
-        name: "Private room in London",
-        property_type: "Apartment",
-        bedrooms: 1,
-        bathroom: 1,
-      },
-      {
-        name: "Beautiful Beach House",
-        summary:
-          "Enjoy relaxed beach living in this house with a private beach",
-        bedrooms: 4,
-        bathrooms: 2.5,
-        beds: 7,
-        last_review: new Date(),
-      },
-    ]);
-  } finally {
-    // Close the connection to the MongoDB cluster
-    await client.close();
+  if (isNaN(port)) {
+    return val;
   }
-}
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+const port = normalizePort(process.env.PORT || "2000");
+app.set("port", port);
 
-async function createMultipleListings(client, newListings) {
-  const result = await client
-    .db("Produits")
-    .collection("Products")
-    .insertMany(newListings);
+const errorHandler = (error) => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  const address = server.address();
+  const bind =
+    typeof address === "string" ? "pipe " + address : "port: " + port;
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges.");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use.");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
 
-  console.log(
-    `${result.insertedCount} new listing(s) created with the following id(s):`
-  );
-  console.log(result.insertedIds);
-}
+const server = http.createServer(app);
 
-main().catch(console.error);
+server.on("error", errorHandler);
+server.on("listening", () => {
+  const address = server.address();
+  const bind = typeof address === "string" ? "pipe " + address : "port " + port;
+  console.log("Listening on " + bind);
+});
+
+server.listen(port);

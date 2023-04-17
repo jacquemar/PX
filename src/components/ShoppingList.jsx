@@ -1,12 +1,28 @@
-import { productList } from "../datas/ProductList";
 import ProductItem from "../components/ProductItem";
+import { useState, useEffect } from "react";
+import MOJO from "../assets/products/MOJO.jpg";
 
 function ShoppingList() {
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:2000/list")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setProductList(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   const categories = productList.reduce(
     (acc, product) =>
       acc.includes(product.category) ? acc : acc.concat(product.category),
     []
   );
+  console.log(categories);
 
   return (
     <div>
@@ -17,7 +33,7 @@ function ShoppingList() {
             name={name}
             category={category}
             prix={prix}
-            cover={cover}
+            cover={MOJO}
             genre={genre}
           />
         ))}

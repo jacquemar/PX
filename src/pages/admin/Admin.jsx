@@ -1,80 +1,86 @@
 import React, { useState, useEffect } from "react";
 import { Header, Footer, Categorie } from "../../components";
-import { useFormik, Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
-function app() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target.value);
-    fetch("/addproduit", {
-      method: "post",
-      body: formData,
-    }).then((response) => {
-      if (response.ok) {
-        alert("Message sent");
-      } else {
-        alert("An error occurred");
+const initialValues = {
+  name: "",
+  category: "",
+  gender: "",
+  price: "",
+  cover: "",
+};
+
+const addproduct = () => {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await fetch("http://localhost:2000/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      console.log({ values });
+      if (!response.ok) {
+        throw new Error("Error sending form data");
       }
-    });
+
+      // Form data was sent successfully
+      console.log("Form data sent successfully!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
-  const [productName, setProductName] = useState("");
-  const [productCategorie, setProductCategorie] = useState("");
-  const [productGenre, setProductGenre] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [productCover, setProductCover] = useState("");
+
+  const validate = (values) => {
+    const errors = {};
+
+    // Add your validation rules here
+    if (!values.name) {
+      errors.name = "Required";
+    }
+
+    return errors;
+  };
+
   return (
-    <div>
-      <Header />
-      <form onSubmit={handleSubmit} className="ml-10 mt-6 w-3/6 justify-center">
-        <label>
-          Nom du produit :
-          <input
-            type="text"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-          />
-        </label>
-        <label>
-          Catégorie :
-          <input
-            type="text"
-            value={productCategorie}
-            onChange={(e) => setProductCategorie(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Genre :
-          <input
-            type="text"
-            value={productGenre}
-            onChange={(e) => setProductGenre(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Prix :
-          <input
-            type="number"
-            value={productPrice}
-            onChange={(e) => setProductPrice(e.target.value)}
-          />
-        </label>{" "}
-        <br />
-        <label>
-          Cover :
-          <input
-            type="file"
-            value={productCover}
-            onChange={(e) => setProductCover(e.target.value)}
-          />
-        </label>
-        <button>
-          {" "}
-          <input type="submit" value="Envoyer" />{" "}
-        </button>
-      </form>
-    </div>
+    <Formik
+      initialValues={initialValues}
+      validate={validate}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <label htmlFor="name">Name</label>
+            <Field type="text" name="name" />
+            <ErrorMessage name="name" component="div" />
+          </div>
+          <div>
+            <label htmlFor="category">Category</label>
+            <Field type="text" name="category" />
+          </div>
+          <div>
+            <label htmlFor="gender">Gender</label>
+            <Field type="text" name="gender" />
+          </div>
+          <div>
+            <label htmlFor="price">Price</label>
+            <Field type="number" name="price" />
+          </div>
+          <div>
+            <label htmlFor="cover">Cover</label>
+            <Field type="file" name="cover" />
+          </div>
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
-}
-export default app;
+};
+
+export default addproduct;

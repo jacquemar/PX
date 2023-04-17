@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Footer.css";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -7,7 +8,9 @@ const Footer = () => {
       <div>
         <div className="mx-4 mt-6 grid h-20 grid-cols-3 gap-3 text-center">
           <div className="">
-            <p className="mt-5 font-bold">Explorer</p>
+            <Link to="/">
+              <p className="mt-5 font-bold">Explorer</p>
+            </Link>
           </div>
           <div className="">
             <svg
@@ -25,6 +28,7 @@ const Footer = () => {
               />
             </svg>
           </div>
+
           <div className="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
