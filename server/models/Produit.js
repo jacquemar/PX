@@ -19,7 +19,7 @@ const produitShema = new mongoose.Schema({
   },
   cover: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 module.exports = mongoose.model("Produit", produitShema);

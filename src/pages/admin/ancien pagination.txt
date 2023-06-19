@@ -1,0 +1,39 @@
+<div className="bg-white ml-1 mt-6 flex items-center justify-between px-4 py-3 sm:px-6">
+      <div className="">
+        <div>
+          <nav
+            className=" inline-flex rounded-md shadow-sm"
+            aria-label="Pagination"
+          >
+            <button
+              className="hover-50 relative inline-flex items-center rounded-l-md px-2 py-2 ring-1 ring-pxcolor focus:z-20 focus:outline-offset-0"
+              onClick={prevPage}
+            >
+              <span className="sr-only">Previous</span>
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            </button>
+            {/* Current: "z-10 bg-pxcolor text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "900 ring-1 rinhove50 focus:outline-offset-0" */}
+
+            {product.map((product, index) => {
+              return (
+                <button
+                  className="text-white bg-slate-200 relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-pxcolor focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pxcolor"
+                  key={index}
+                  onClick={() => setCurrentPage(product)}
+                >
+                  {product}
+                </button>
+              );
+            })}
+
+            <a
+              className="hover-50 relative inline-flex items-center rounded-r-md px-2 py-2 ring-1 ring-pxcolor focus:z-20 focus:outline-offset-0"
+              onClick={nextPage}
+            >
+              <span className="sr-only">Next</span>
+              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>

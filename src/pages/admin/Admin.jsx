@@ -1,86 +1,129 @@
-import React, { useState, useEffect } from "react";
-import { Header, Footer, Categorie } from "../../components";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
+import React, { useState } from "react";
 
-const initialValues = {
-  name: "",
-  category: "",
-  gender: "",
-  price: "",
-  cover: "",
-};
+function Admin() {
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setFilePicked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [url, setUrl] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [gender, setGender] = useState("");
+  const [price, setPrice] = useState("");
 
-const addproduct = () => {
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const response = await fetch("http://localhost:2000/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      console.log({ values });
-      if (!response.ok) {
-        throw new Error("Error sending form data");
-      }
+  const handleChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setFilePicked(true);
+  };
+  //console.log(selectedFile);
 
-      // Form data was sent successfully
-      console.log("Form data sent successfully!");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false);
-    }
+  const convertBase64 = (selectedFile) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(selectedFile);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
 
-  const validate = (values) => {
-    const errors = {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // Add your validation rules here
-    if (!values.name) {
-      errors.name = "Required";
+    setLoading(true);
+    try {
+      const base64 = await convertBase64(selectedFile);
+      // Envoyer la requête POST avec Axios
+      const response = await axios.post("http://localhost:2000/upload", {
+        name: name,
+        category: category,
+        gender: gender,
+        price: price,
+        cover: base64,
+      });
+
+      // Traiter la réponse si nécessaire
+      //console.log(response.data);
+      setUrl(base64);
+    } catch (error) {
+      console.log("une erreur c'est produite lors de la conversion de l'image");
+    } finally {
+      setLoading(false);
     }
-
-    return errors;
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting }) => (
-        <Form>
+    <div>
+      <h1 className="mt-4 text-center font-sans text-xl font-bold">
+        {" "}
+        Espace Admin{" "}
+      </h1>
+      <h3 className="text-md mt-6 text-center font-medium">
+        {" "}
+        formulaire d'ajout de produit
+      </h3>
+      <div className="mt-4 text-center">
+        <form action="" encType="multipart/form-data">
           <div>
-            <label htmlFor="name">Name</label>
-            <Field type="text" name="name" />
-            <ErrorMessage name="name" component="div" />
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor "
+              type="text"
+              name="name"
+              placeholder="Nom"
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div>
-            <label htmlFor="category">Category</label>
-            <Field type="text" name="category" />
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor "
+              type="text"
+              name="category"
+              placeholder="Catégorie"
+              onChange={(e) => setCategory(e.target.value)}
+            />
           </div>
           <div>
-            <label htmlFor="gender">Gender</label>
-            <Field type="text" name="gender" />
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor "
+              type="text"
+              name="genre"
+              placeholder="Genre"
+              onChange={(e) => setGender(e.target.value)}
+            />
           </div>
           <div>
-            <label htmlFor="price">Price</label>
-            <Field type="number" name="price" />
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor "
+              type="number"
+              name="price"
+              placeholder="Prix"
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
           <div>
-            <label htmlFor="cover">Cover</label>
-            <Field type="file" name="cover" />
+            <input
+              className="w-26 h-10 gap-10 rounded-xl border-2 border-pxcolor "
+              type="file"
+              name="cover"
+              id="cover"
+              onChange={handleChange}
+            />
           </div>
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
-        </Form>
-      )}
-    </Formik>
+          <div>
+            <button type="submit" onClick={handleSubmit}>
+              telecharger
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="h-24 w-36 items-center">
+        {loading ? <p>Téléchargement en cours...</p> : <img src={url} alt="" />}
+      </div>
+    </div>
   );
-};
-
-export default addproduct;
+}
+export default Admin;

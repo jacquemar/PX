@@ -29,20 +29,24 @@ const Categorie = () => {
             </Link>
           </div>
           <div className="">
-            <img
-              src="../src/assets/POLAROID-ICON.png"
-              alt=""
-              className="h12 ml-3 w-12 "
-            />
-            <p className="mt-3 text-center text-xs">Photos Polaroïd</p>
+            <Link to="/photos">
+              <img
+                src="../src/assets/POLAROID-ICON.png"
+                alt=""
+                className="h12 ml-3 w-12 "
+              />
+              <p className="mt-3 text-center text-xs">Photos Cadres</p>
+            </Link>
           </div>
           <div className="">
-            <img
-              src="../src/assets/CARTE-ICON.png"
-              alt=""
-              className="h12 w-12 justify-items-center"
-            />
-            <p className="mt-3 text-center text-xs">Cartes</p>
+            <Link to="/skin">
+              <img
+                src="../src/assets/CARTE-ICON.png"
+                alt=""
+                className="h12 w-12 justify-items-center"
+              />
+              <p className="mt-3 text-center text-xs">Skin Adhésif</p>
+            </Link>
           </div>
         </div>
       </div>
