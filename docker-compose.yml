@@ -1,0 +1,16 @@
+version: "3"
+services:
+  client:
+    image: px-client-side
+    command: sh -c "npm run dev"
+    working_dir: /app
+    ports: 
+      - 8000:8000
+  server:
+    image: px-server-side
+    command: sh -c "node index.js"
+    working_dir: /app
+    ports: 
+     - 2000:2000
+
+
