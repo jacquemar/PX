@@ -56,60 +56,56 @@ export default function DeliveryInfos() {
           </span>
         </li>
       </ol>
+      <div>
+      
 
       <div className="mt-16 ml-6">
-        <div class="relative z-0 mb-8">
-          <input
-            type="text"
-            id="floating_standard"
-            class="peer block w-full appearance-none  border-0 border-b-2 border-gray-300 bg-transparent py-6 px-0 text-sm text-gray-900 focus:border-pxcolor focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-            placeholder=" "
-          />
-          <label
-            for="floating_standard"
-            class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-lg text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-pxcolor dark:text-gray-400 peer-focus:dark:text-blue-500"
-          >
-            Lieu de livraison
-          </label>
-        </div>
-        <div class="relative z-0 mb-8">
-          <input
-            type="text"
-            id="floating_standard"
-            class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-6 px-0 text-lg text-gray-900 focus:border-pxcolor focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-            placeholder=" "
-          />
-          <label
-            for="floating_standard"
-            class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-lg text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-pxcolor dark:text-gray-400 peer-focus:dark:text-blue-500"
-          >
-            Quartier
-          </label>
-        </div>
-        <div className="ml-10">
-          <div className="relative z-0 mb-8 inline-flex ">
-            <select
-              id="underline_select"
-              class="peer appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-lg text-gray-500 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-gray-400"
-            >
-              <option selected>Ville</option>
-              <option value="ABJ">Abidjan</option>
-              <option value="BAS">Bassam</option>
-              <option value="YAK">Yamoussokro</option>
-              <option value="SPD">San pedro</option>
-            </select>
-          </div>
-          <div class="relative z-0 mb-8 ml-12 inline-flex ">
-            <select
-              id="underline_select"
-              class="peer appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-lg text-gray-500 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-gray-400"
-            >
-              <option selected>Pays</option>
-              <option value="CIV">Côte d'Ivoire</option>
-            </select>
-          </div>
+        
+        <form class="w-full max-w-lg">
+          <div class="flex flex-wrap -mx-3 mb-6">
+           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+        Quartier
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Bietry"/>
+      <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+        Commune
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Marcory"/>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-2">
+    <div class=" w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+        Ville
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Abidjan"/>
+    </div>
+    <div class="w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        Pays
+      </label>
+      <div class="relative">
+        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <option>Côte d'Ivoire</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
         </div>
       </div>
+    </div>
+
+  </div>
+</form>
+      </div>
+      
+    </div>
+      
+      
     </div>
   );
 }

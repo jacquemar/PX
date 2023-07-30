@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Header, Footer, Categorie } from "../../components";
 import ShoppingList from "../../components/ShoppingList";
-import { CartContext } from "../../components/CartContext";
+import { addToCart } from "../../redux/actions";
+
+
 const Home = () => {
-  const { addToCart } = useContext(CartContext);
+  const dispatch = useDispatch();
+ const cartItems = useSelector((state) => state.cart.cartItems);
+    const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <div>
       <div className="bg-gray-25">
@@ -16,8 +23,9 @@ const Home = () => {
           </p>
           <p className="ml-16 mb-6 mt-5 text-sm">voir tout</p>
         </div>
-        <ShoppingList addToCart={addToCart} />
+        <ShoppingList addToCart={handleAddToCart} />
       </div>
+       <Footer />
     </div>
   );
 };

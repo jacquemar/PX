@@ -1,180 +1,99 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Footer } from "../../components";
-import { CartContext } from "../../components/CartContext";
-import { Item } from "material";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import {
+  addToCart,
+  removeFromCart,
+  updateTotalPrice,
+  decreaseQuantity,
+  increaseQuantity,
+} from '../../redux/slices/cartSlice';
+import { setTicketNumber } from '../../redux/slices/ticketSlice';
+
 
 const Ticket = () => {
-  const {
-    cartItems,
-    removeFromCart,
-    setCartItems,
-    addToCart,
-    calculateTotalPrice,
-  } = useContext(CartContext);
-  const [totalQuantity, setTotalQuantity] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [quantityMap, setQuantityMap] = useState({});
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const ticketNumber = useSelector((state) => state.ticket.ticketNumber);
+  const dispatch = useDispatch();
+
+    const generateTicketNumber = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let ticketNumber = '';
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      ticketNumber += chars.charAt(randomIndex);
+    }
+    return ticketNumber;
+    };
+      useEffect(() => {
+    dispatch(updateTotalPrice());
+    const generatedTicketNumber = generateTicketNumber();
+    dispatch(setTicketNumber(generatedTicketNumber)); // Définissez le numéro de ticket dans le store Redux
+  }, [cartItems, dispatch]);
 
   useEffect(() => {
-    if (cartItems) {
-      // Vérifier si cartItems est défini
-      // Calculer le total des quantités et des prix à chaque changement de panier
-      let newTotalQuantity = 0;
-      let newTotalPrice = 0;
+    dispatch(updateTotalPrice());
+   }, [cartItems, dispatch]);
 
-      cartItems.forEach((item) => {
-        newTotalQuantity += item.quantity;
-        newTotalPrice += item.quantity * item.price;
-      });
-
-      setTotalQuantity(newTotalQuantity);
-      setTotalPrice(newTotalPrice);
-    }
-  }, [cartItems]);
+console.log(cartItems);
 
   const handleAddToCart = (product) => {
-    const existingItem = cartItems.find((item) => item.id === product.id);
+    const productIndex = cartItems.findIndex((item) => item.id === product.id);
 
-    if (existingItem) {
-      // Le produit existe déjà dans le panier, mettez à jour sa quantité
-      const updatedCartItems = cartItems.map((item) => {
-        if (item.id === existingItem.id) {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-        }
-        return item;
-      });
-
-      setCartItems(updatedCartItems);
+    if (productIndex !== -1) {
+      // Si le produit est déjà présent dans le panier, augmentez la quantité de 1
+      dispatch(increaseQuantity({ productId: product.id }));
+      
     } else {
-      // Le produit n'existe pas encore dans le panier, ajoutez-le
-      const newItem = {
-        id: product.id,
-        name: product.name,
-        quantity: 1,
-        price: product.price,
-        cover: product.cover,
-      };
-
-      setCartItems([...cartItems, newItem]);
+      // Sinon, ajoutez le produit au panier avec une quantité de 1
+      dispatch(addToCart(product));
     }
-
-    // Mettre à jour les totaux
-    setTotalQuantity(totalQuantity + 1);
-    setTotalPrice(totalPrice + product.price);
   };
 
   const handleRemoveFromCart = (itemId) => {
-    const removedItem = cartItems.find((item) => item.id === itemId);
-
-    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCartItems);
-
-    // Mettre à jour les totaux
-    setTotalQuantity(totalQuantity - removedItem.quantity);
-    setTotalPrice(totalPrice - removedItem.quantity * removedItem.price);
+    dispatch(removeFromCart(itemId));
+      const removedItem = cartItems.find(item => item.id === itemId);
+       dispatch(removeFromCart(itemId));
+        // Mettre à jour le prix total en utilisant une action Redux
+      dispatch(updateTotalPrice());
   };
 
   const handleDecreaseQuantity = (itemId) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
-        const newQuantity = item.quantity - 1;
-        return {
-          ...item,
-          quantity: newQuantity >= 0 ? newQuantity : 0,
-        };
-      }
-      return item;
-    });
-
-    setCartItems(updatedCartItems);
-
-    // Mettre à jour la quantité du produit dans quantityMap
-    setQuantityMap((prevQuantityMap) => ({
-      ...prevQuantityMap,
-      [itemId]: Math.max((prevQuantityMap[itemId] || 0) - 1, 0),
-    }));
-
-    // Vérifier si la nouvelle quantité est égale à 0 et supprimer l'élément du panier
-    if (updatedCartItems.find((item) => item.id === itemId)?.quantity === 0) {
-      handleRemoveFromCart(itemId);
-    }
-
-    // Mettre à jour les totaux
-    const updatedItem = updatedCartItems.find((item) => item.id === itemId);
-    setTotalQuantity(totalQuantity - 1);
-    setTotalPrice(totalPrice - updatedItem.price);
-  };
-
-  const handleIncreaseQuantity = (itemId) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
-        return {
-          ...item,
-          quantity: item.quantity + 1,
-        };
-      }
-      return item;
-    });
-
-    setCartItems(updatedCartItems);
-
-    // Mettre à jour la quantité du produit dans quantityMap
-    setQuantityMap((prevQuantityMap) => ({
-      ...prevQuantityMap,
-      [itemId]: (prevQuantityMap[itemId] || 0) + 1,
-    }));
-
-    // Mettre à jour les totaux
-    const updatedItem = updatedCartItems.find((item) => item.id === itemId);
-    setTotalQuantity(totalQuantity + 1);
-    setTotalPrice(totalPrice + updatedItem.price);
-  };
+       dispatch(decreaseQuantity({productId: itemId}));
+   };
 
   return (
     <div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="text-gray-500 mt-6 w-full text-left text-sm dark:text-gray-400">
-          <thead className="text-gray-700 bg-gray-50 dark:bg-gray-700 text-base uppercase dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3">
-                <span className="sr-only">Image</span>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Nom
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Qté
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Prix
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Action</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {console.log(cartItems)}
-            {cartItems.map((item, index) => (
-              <tr
-                key={`${item.id}-${index}`}
-                className="dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border-b bg-white"
-              >
-                <td className="w-24 p-1">
-                  <img src={item.cover} alt={item.name} />
-                </td>
-                <td className="text-gray-900 px-6 py-4 font-semibold dark:text-white">
-                  {item.name}
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center space-x-3">
-                    <button
-                      className="text-gray-500 border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 inline-flex items-center rounded-full border bg-white p-1 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400"
-                      type="button"
-                      onClick={() => handleDecreaseQuantity(item.id)}
+   
+      <section className="h-screen bg-gray-100 py-12  sm:py-16 mb-10 lg:py-20">
+  <div className="mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center">
+      <h1 className="text-2xl font-semibold text-gray-900">Votre Ticket </h1>
+      
+    </div>
+    <div className="flex items-center justify-center">
+    <p className="text-sm font-light text-cyan-600">{ticketNumber}</p></div>
+
+    <div className="mx-auto mt-8 max-w-md md:mt-12">
+      <div className="rounded-3xl bg-white shadow-lg">
+        <div className="px-4 py-6 sm:px-8 sm:py-10">
+          <div className="flow-root">
+            <ul className="-my-8">
+              {cartItems.map((item, index) => (
+              <li key={`${item.id}-${index}`} className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0">
+                <div className="shrink-0 relative">
+                  <span className="absolute top-1 left-1 flex h-6 w-6 items-center justify-center rounded-full border bg-red text-sm font-medium text-white shadow sm:-top-2 sm:-right-2">{item.quantity}</span>
+                   <img className="h-24 w-24 max-w-full rounded-lg object-cover" src={item.cover} alt={item.name} />
+                </div>
+
+                <div className="relative flex flex-1 flex-col justify-between">
+                  <div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
+                    <div className="pr-8 sm:pr-5">
+                      <p className="text-base font-semibold text-gray-900">{item.name}</p>
+                      <button className="text-gray-500 mt-2 mx-1 border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 inline-flex items-center rounded-full border bg-white p-1 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400" type="button"
+                      onClick={() => handleDecreaseQuantity(item.id) }
                     >
                       <span className="sr-only">Quantity button </span>
                       <svg
@@ -191,18 +110,8 @@ const Ticket = () => {
                         ></path>
                       </svg>
                     </button>
-                    <div>
-                      <input
-                        type="number"
-                        id="first_product"
-                        className="bg-gray-50 border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 block w-14 rounded-lg border px-2.5 py-1 text-sm focus:border-blue-500 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder={quantityMap[item.id] || item.quantity}
-                        value={quantityMap[item.id] || item.quantity}
-                        required
-                      />
-                    </div>
-                    <button
-                      className="text-gray-500 border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 inline-flex items-center rounded-full border bg-white p-1 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400"
+                       <button
+                      className="text-gray-500 mx-1 mt-2 border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 inline-flex items-center rounded-full border bg-white p-1 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400"
                       type="button"
                       onClick={() => handleAddToCart(item)}
                     >
@@ -221,38 +130,55 @@ const Ticket = () => {
                         ></path>
                       </svg>
                     </button>
+                                          </div>
+
+                    <div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+                      <p className="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">{item.price}XOF</p>
+                    </div>
                   </div>
-                </td>
 
-                <td className="text-gray-900 px-6 py-4 font-semibold dark:text-white">
-                  {item.price}
-                </td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="text-red-600 dark:text-red-500 font-medium hover:underline"
-                    onClick={() => handleRemoveFromCart(item.id)}
-                  >
-                    Remove
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr class="text-gray-900 font-semibold dark:text-white">
-              <th scope="col" className=" px-6 py-3 text-center text-base">
-                Total
-              </th>
+                  <div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
+                   
+                    <button type="button" onClick={() => handleRemoveFromCart(item.id)} className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
+                      <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" className=""></path>
+                      </svg>
+                    </button>
+                    
+                  </div>
+                </div>
+              </li>
 
-              <td class="px-6 py-3">{totalQuantity}</td>
-              <td class="px-6 py-3 text-base text-red">
-                {totalPrice} <span className="text-gray-400">XOF</span>{" "}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+              ))}
+            </ul>
+          </div>
+
+          <hr className="mx-0 mt-6 mb-0 h-0 border-r-0 border-b-0 border-l-0 border-t border-solid border-gray-300" /> 
+
+
+          <div className="mt-6 flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900">Total</p>
+            <p className="text-2xl font-semibold text-gray-900"> {totalPrice} <span className="text-xs font-normal text-gray-400">FCFA</span></p>
+          </div>
+
+          <div className="mt-6 text-center">
+             <Link to="/checkout">
+            <button type="button" className="group inline-flex w-full items-center justify-center rounded-md bg-pxcolor px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
+              Créer le ticket
+              <svg xmlns="http://www.w3.org/2000/svg" className="group-hover:ml-8 ml-4 h-6 w-6 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+            </Link>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+
     </div>
   );
 };

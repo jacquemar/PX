@@ -2,13 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { CartProvider } from "./components/CartContext";
+import {Provider} from 'react-redux';
+
+import store from './redux/store'; // Importez le persistor
 
 ReactDOM.render(
   <React.StrictMode>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <Provider store={store}>
+    
+        <App />
+      
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

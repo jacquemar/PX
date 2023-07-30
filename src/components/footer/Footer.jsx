@@ -1,11 +1,20 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import styles from "./Footer.css";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import Ticket from "../../pages/ticket/Ticket";
-import { CartContext } from "../../components/CartContext";
+import { useSelector, useDispatch } from 'react-redux';
+import { getCartItemsCount } from '../../redux/slices/cartSlice';
+
 
 const Footer = () => {
-  const { cartItems } = useContext(CartContext);
+ const dispatch = useDispatch();
+ const totalCartItem = useSelector((state) => state.cart.totalQuantity)
+   useEffect(() => {
+    // Au chargement du composant Footer, récupérez le nombre total d'articles dans le panier
+    dispatch(getCartItemsCount());
+  }, []);
+  console.log(totalCartItem);
+  // Utilisez useSelector pour obtenir le nombre total d'articles depuis le state Redux
   return (
     <div>
       <div>
@@ -59,11 +68,13 @@ const Footer = () => {
                   </svg>
 
                   <div className="bg-red-500 dark:border-gray-900 absolute -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white  bg-red text-xs font-bold text-white">
-                    <span>{cartItems.length}</span>
+                    <span>{totalCartItem}</span>
                   </div>
                 </button>
               </Link>
             </div>
+
+
             <div
               id="tooltip-new"
               role="tooltip"

@@ -125,6 +125,7 @@ function Posters() {
           setCurrentPage={setCurrentPage}
         />
       </div>
+       <Footer />
     </div>
   );
 }
