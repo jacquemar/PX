@@ -1,4 +1,4 @@
-import React, { Children, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Footer, Categorie } from "../../components";
 import MOJO from "../../assets/products/MOJO.jpg";

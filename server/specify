@@ -1,0 +1,15 @@
+
+{showInvoice && (
+  <Invoice
+    cartItems={cartItems}
+    selectedCommune={selectedCommune}
+    deliveryPrice={deliveryPrice}
+    selectedMethod={selectedMethod}
+    totalPrice={totalPrice}
+    netAPayer={netAPayer}
+    ticketNumber={ticketNumber}
+    phoneNumber={phoneNumber}
+    pdfContent={pdfContent}
+    handleClose={() => setShowInvoice(false)}
+  />
+)}

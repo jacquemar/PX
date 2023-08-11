@@ -4,12 +4,23 @@ const initialState = {
   cartItems: [],
   totalQuantity: 0,
   totalPrice: 0,
+  ticketNumber: '',
+  ticketList: [],
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    
+    resetCart: (state) => {
+      state.cartItems = [];
+      state.totalQuantity = 0;
+      state.totalPrice = 0;
+    },
+        resetTicketList: (state) => {
+      state.ticketList = [];
+    },
     addToCart: (state, action) => {
       state.cartItems.push(action.payload);
             const { productId } = action.payload; // Récupérer l'ID du produit à augmenter
@@ -26,6 +37,9 @@ const cartSlice = createSlice({
         state.cart.totalPrice += state.cartItems[productIndex].price;
       }
       }
+    },
+    addTicketNumber: (state, action) => {
+      state.ticketList.push(action.payload);
     },
     removeFromCart: (state, action) => {
       const removedItemId = action.payload;
@@ -88,6 +102,9 @@ export const {
   removeFromCart,
   updateTotalQuantity,
   updateTotalPrice,
+  resetCart,
+  resetTicketList,
+  addTicketNumber,
   getCartItemsCount,
   decreaseQuantity,
   increaseQuantity,

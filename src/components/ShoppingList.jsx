@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import store from '../redux/store';
+import {store} from '../redux/store';
 import { addToCart, removeFromCart, updateTotalQuantity, increaseQuantity } from '../redux/slices/cartSlice';
 import { updateProductList } from '../redux/slices/productSlice';
 import ProductItem from "../components/ProductItem";
@@ -18,18 +18,18 @@ function ShoppingList() {
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const productList = useSelector((state) => state.product.productList);
+  const [productList, setProductList] = useState([]);
   const totalQuantity = useSelector((state) => state.cart.cartItems.length);
   const ProductQuantity = useSelector((state) => state.cart.cartItems.itemId);
-
-  const currentProduct = productList.slice(firstProductIndex, lastProductIndex);
 
   useEffect(() => {
 
     fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
-          dispatch(updateProductList(data)); 
+         
+        setProductList(data);
+       
          
       })
       .catch((err) => {
@@ -39,6 +39,8 @@ function ShoppingList() {
     };
     
   }, []);
+
+    const currentProduct = productList.slice(firstProductIndex, lastProductIndex);
 
   const { id } = useParams();
   const productId = productList?.find((product) => product._id === id);
@@ -106,3 +108,4 @@ function ShoppingList() {
 }
 
 export default ShoppingList;
+

@@ -26,6 +26,7 @@ const cloudconfig = require("./cloudinary");
 const mongoose = require("mongoose");
 
 const Product = require("./models/Produit");
+const Ticket = require("./models/Ticket");
 
 mongoose
   .connect(
@@ -48,7 +49,7 @@ app.post("/upload", async (req, res) => {
       price: price,
       cover: uploadResult.url,
     });
-    console.log(produit);
+ 
 
     produit
       .save()
@@ -64,11 +65,62 @@ app.get("/list", (req, res) => {
   Product.find()
     .then((products) => res.status(200).json(products))
     .catch((error) => res.status(400).json({ error }));
+   
 });
 app.get("/product/:id", (req, res) => {
   Product.findOne({ _id: req.params.id })
     .then((products) => res.status(200).json(products))
     .catch((error) => res.status(404).json({ error }));
+});
+
+app.get("/tickets-by-numbers", async (req, res) => {
+  try {
+    const ticketList = req.query.ticketList;
+    const ticketNumbers = ticketList.split(","); // Convertir la chaîne en tableau de numéros
+    const mesTickets = await Ticket.find({ ticketNumber: { $in: ticketNumbers } }); // Utiliser ticketNumbers
+    res.status(200).json(mesTickets);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erreur lors de la récupération des tickets" });
+  }
+});
+
+
+
+
+
+app.post("/create-order", async (req, res) => {
+  const {
+    cartItems,
+    selectedCommune,
+    selectedMethod,
+    deliveryMethod,
+    deliveryPrice,
+    totalPrice,
+    phoneNumber,
+    ticketNumber,
+    // ... données de la commande
+  } = req.body;
+
+  try {
+    const ticket = new Ticket({
+      cartItems,
+      selectedCommune,
+      selectedMethod,
+      deliveryMethod,
+      deliveryPrice,
+      totalPrice,
+      phoneNumber,
+      ticketNumber,
+      // ... données de la commande
+    });
+
+    await ticket.save();
+    res.status(201).json({ message: "Commande enregistrée avec succès" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erreur lors de l'enregistrement de la commande" });
+  }
 });
 
 module.exports = app;

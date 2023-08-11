@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import Invoice from '../Invoice'; 
-import { setTicketNumber } from '../../redux/slices/ticketSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+
 
 
 import {
-  addToCart,
-  removeFromCart,
-  updateTotalPrice,
-  decreaseQuantity,
-  increaseQuantity,
+  resetCart,
+  addTicketNumber,
 } from '../../redux/slices/cartSlice';
 
 const communesList = [
@@ -29,12 +30,10 @@ const communesList = [
   'Williamsville',
 ];
 
-
-
 const Checkout = () => {
 
   const [showInvoice, setShowInvoice] = useState(false);
-
+  const navigate = useNavigate();
     // État local pour stocker le numéro de téléphone
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -42,6 +41,7 @@ const Checkout = () => {
   const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
   };
+  
 
     const calculateDeliveryPrice = (selectedCommune, selectedMethod) => {
   const deliveryPrices = {
@@ -61,19 +61,19 @@ const Checkout = () => {
   };
 
   const basePrice = deliveryPrices[selectedCommune] || 0;
-  const methodPrice = selectedMethod === 'radio_2' ? 1500 : 0;
+  const methodPrice = selectedMethod === 'express' ? 1500 : 0;
 
   return basePrice + methodPrice  ;
 };
 
-
     // État local pour stocker la valeur sélectionnée de la commune
   const [selectedCommune, setSelectedCommune] = useState('');
-  const [selectedMethod, setSelectedMethod] = useState('radio_1'); // Ajout de l'état local pour la méthode de livraison sélectionnée
+  const [selectedMethod, setSelectedMethod] = useState('viens_chercher'); // Ajout de l'état local pour la méthode de livraison sélectionnée
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('om');
   const [deliveryPrice, setDeliveryPrice] = useState(0);
-  const ticketNumber = useSelector((state) => state.ticket.ticketNumber);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [netAPayer, setnetAPayer] = useState(0);
+  const [isRedirected, setIsRedirected] = useState(false);
 
   // Fonction de rappel pour gérer les modifications de la commune sélectionnée
 const handleCommuneChange = (event) => {
@@ -81,6 +81,24 @@ const handleCommuneChange = (event) => {
   const newDeliveryPrice = calculateDeliveryPrice(event.target.value, selectedMethod);
   setDeliveryPrice(newDeliveryPrice.toString());
 };
+
+// fonction de validations du ticket 
+const validateForm = () => {
+  // Vérification de toutes les conditions de validation
+
+  const isPhoneNumberValid = phoneNumber.trim() !== '';
+  const isCommuneSelected = selectedCommune !== '';
+  const isPaymentMethodSelected = selectedPaymentMethod !== '';
+
+  // Mise à jour l'état isFormValid en fonction de la validation
+  setIsFormValid(isPhoneNumberValid && isCommuneSelected && isPaymentMethodSelected);
+};
+
+// Appel de la fonction de validation à chaque fois que les champs sont modifiés
+useEffect(() => {
+  validateForm();
+}, [phoneNumber, selectedCommune, selectedPaymentMethod]);
+
 
     const handlePaymentMethodChange = (event) => {
   setSelectedPaymentMethod(event.target.value);
@@ -94,12 +112,14 @@ const handleMethodChange = (event) => {
 };
 
 
-
+ 
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
-
+  const ticketNumber = useSelector((state) => state.ticket.ticketNumber);
+  
   const dispatch = useDispatch();
+
 
 useEffect(() => {
   const calculatedNetAPayer = parseFloat(totalPrice) + parseFloat(deliveryPrice);
@@ -107,17 +127,50 @@ useEffect(() => {
 }, [totalPrice, deliveryPrice]);
 
 const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour stocker le contenu du PDF
-  const handleGeneratePDF = () => {
-    const content = generatePDF();
-    setPdfContent(content);
+  const handleGeneratePDF = async () => {
+
+    // enregistrement en BD 
+        try {
+      const response = await axios.post("http://localhost:2000/create-order", {
+        cartItems: cartItems,
+        selectedCommune: selectedCommune,
+        selectedMethod: selectedPaymentMethod,
+        deliveryMethod: selectedMethod,
+        deliveryPrice: deliveryPrice,
+        totalPrice: totalPrice,
+        phoneNumber: phoneNumber,
+        ticketNumber: ticketNumber,
+        });
+
+      if (response.ok) {
+     
+       toast.success("Commande passée avec succès ! ")
+       const pdfContent = generatePDF(); // Générer le PDF
+        setPdfContent(pdfContent); // Mettre à jour l'état local du contenu PDF
+        setShowInvoice(true); // Afficher la facture
+        dispatch(resetCart(cartItems)); // Réinitialiser le panier
+        setTimeout(() => {
+  navigate('/history'); // Naviguer vers la page d'historique
+}, 2000); 
+
+
+      } else {
+        // Gérer les erreurs si nécessaire
+      }
+    } catch (error) {
+           // Afficher le toast de succès
+    toast.error("Échec de l'enregistrement de la commande!"); 
+      console.error(error);
+    }
+  
   };
 
     // Fonction pour générer et télécharger le fichier PDF
+// Fonction pour générer et télécharger le fichier PDF
   const generatePDF = () => {
     const doc = new jsPDF();
 
     // Informations du ticket
-
     const ticketText = `Ticket Number: ${ticketNumber}\n\n`;
     const cartItemsText = `Cart Items:\n`;
     const cartItemsDetails = cartItems
@@ -168,6 +221,7 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
     </div>
   </div>
 </div>
+<ToastContainer />
 <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
   <div className="px-4 pt-8">
     <p className="text-xl font-medium">Détails du Ticket</p>
@@ -181,7 +235,6 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
         <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.cover} alt={item.name} />
         <div className="flex w-full flex-col px-4 py-4">
           <span className="font-semibold">{item.name}</span>
-          <span className="float-right text-gray-400">42EU - 8.5US</span>
           <p className="text-lg font-bold">{item.price} FCFA</p>
         </div>
         </li>
@@ -195,7 +248,7 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
     <p className="mt-8 text-lg font-medium">Méthodes de livraison</p>
     <form className="mt-5 grid gap-6">
       <div className="relative">
-        <input className="peer hidden" id="radio_1" type="radio" name="deliveryMethod" value="radio_1"   checked={selectedMethod === 'radio_1'}
+        <input className="peer hidden" id="radio_1" type="radio" name="deliveryMethod" value="standard"   checked={selectedMethod === 'standard'}
   onChange={handleMethodChange} />
         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_1">
@@ -207,7 +260,7 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
         </label>
       </div>
       <div className="relative">
-        <input className="peer hidden" id="radio_2" type="radio" name="deliveryMethod" value="radio_2"  checked={selectedMethod === 'radio_2'}
+        <input className="peer hidden" id="radio_2" type="radio" name="deliveryMethod" value="express"  checked={selectedMethod === 'express'}
   onChange={handleMethodChange}/>
         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_2">
@@ -219,7 +272,7 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
         </label>
       </div>
             <div className="relative">
-        <input className="peer hidden" id="radio_3" type="radio" name="deliveryMethod" value="radio_3"  checked={selectedMethod === 'radio_3'}
+        <input className="peer hidden" id="radio_3" type="radio" name="deliveryMethod" value="calendrier"  checked={selectedMethod === 'calendrier'}
   onChange={handleMethodChange}/>
         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_3">
@@ -407,26 +460,25 @@ const [pdfContent, setPdfContent] = useState(''); // Nouvel état local pour sto
     </div>
     
  <button
-  className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
-  onClick={() => { handleGeneratePDF(), setShowInvoice(true)}}
+  className="mt-4 mb-8 w-full rounded-md bg-pxcolor px-6 py-3 font-medium text-white"
+  onClick={() => { 
+    if (isFormValid){
+      toast.success("Commande passée avec succès !")
+        dispatch(addTicketNumber(ticketNumber));
+      handleGeneratePDF(), 
+      setShowInvoice(true),
+      dispatch(resetCart(cartItems));
+              setTimeout(() => {
+  navigate('/history'); // Naviguer vers la page d'historique
+}, 3000);
+    } else{
+      toast.error('Veuillez remplir tous les champs requis.');
+    }
+    }}
+    disabled={!isFormValid}
 >
-  Generate Ticket and Show Invoice
+  Commander
 </button>
-{showInvoice && (
-  <Invoice
-    cartItems={cartItems}
-    selectedCommune={selectedCommune}
-    deliveryPrice={deliveryPrice}
-    selectedMethod={selectedMethod}
-    totalPrice={totalPrice}
-    netAPayer={netAPayer}
-    ticketNumber={ticketNumber}
-    phoneNumber={phoneNumber}
-    pdfContent={pdfContent}
-    handleClose={() => setShowInvoice(false)}
-  />
-)}
-
   </div>
 </div>
 </div>

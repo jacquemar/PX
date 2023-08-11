@@ -88,7 +88,7 @@ const Footer = () => {
               type="button"
               className="hover:bg-gray-50 dark:hover:bg-gray-800 group inline-flex flex-col items-center justify-center rounded-r-full px-5"
             >
-              <Link to="/">
+              <Link to="/history">
                 <svg
                   className="text-gray-500 mb-1 h-6 w-6 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500"
                   fill="currentColor"

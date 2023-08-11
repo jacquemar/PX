@@ -12,6 +12,7 @@ import Ticket from "./pages/ticket/Ticket";
 import Admin from "./pages/admin/Admin";
 import Stickers from "./pages/Stickers/Stickers";
 import Skin from "./pages/skin/Skin";
+import OrderHistory from "./pages/history/OrderHistory";
 import Photos from "./pages/photos/Photos";
 import CheckoutForm from "./components/checkout/CheckoutForm";
 import Checkout from "./components/checkout/Checkout";
@@ -27,7 +28,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/skin" element={<Skin />} />
           <Route path="/stickers" element={<Stickers />} />
-          <Route path="/photos" element={<Photos />} />
+          <Route path="/history" element={<OrderHistory />} />
           <Route path="/checkoutForm" element={<CheckoutForm />} />
           <Route path="/checkout" element={<Checkout/>} />
           <Route path="/product/:id" element={<ProductDetailComponent />} />
