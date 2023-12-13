@@ -1,16 +1,33 @@
 import React, { Children, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Footer, Categorie } from "../../components";
-import MOJO from "../../assets/products/MOJO.jpg";
-
+import coverPhoto from "../../assets/photocover.jpg";
+import { useParams } from "react-router-dom";
+import {
+  addToCart,
+  updateTotalQuantity,
+  increaseQuantity,
+} from "../../redux/slices/cartSlice";
+import { updateProductList } from "../../redux/slices/productSlice";
 import ProductItem from "../../components/ProductItem";
 import uploadImg from "../../assets/products/upload-01-01.jpg";
 
 function Photos() {
   const [productList, setProductList] = useState([]);
+  const handleAddToCart = (product) => {
+    const productIndex = cartItems.findIndex((item) => item.id === product.id);
+    if (productIndex !== -1) {
+      // Si le produit est déjà présent dans le panier, augmentez la quantité de 1
+      dispatch(increaseQuantity({ productId: product.id }));
+    } else {
+      // Sinon, ajoutez le produit au panier avec une quantité de 1
+      dispatch(addToCart(product));
+      dispatch(updateTotalQuantity(totalQuantity + 1));
+    }
+  };
 
   useEffect(() => {
-    fetch("http://localhost:2000/list")
+    fetch("http://172.232.136.229:80/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -25,6 +42,8 @@ function Photos() {
       acc.includes(product.category) ? acc : acc.concat(product.category),
     []
   );
+  const { id } = useParams();
+  const productId = productList?.find((product) => product._id === id);
 
   const genderList = productList.reduce(
     (acc, product) =>
@@ -32,37 +51,39 @@ function Photos() {
     []
   );
   const filterProduct = productList.filter(
-    (product) => product.category === "poster" || product.category === "Poster"
+    (product) => product.category === "photo" || product.category === "Photo"
   );
   return (
     <div>
       <Header />
-      <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
-      <div className="mx-4 mt-4 mr-1 h-40 rounded-lg">
+      <h1 className=" text-center text-xl font-black">
+        PHOTOS / PHOTOS CADRES
+      </h1>
+      <div className="mx-4 mt-4 h-40 rounded-lg">
         <img
-          src="../../src/assets/cover.png"
-          alt="posterimage"
-          className="w-12/12 mt-4 h-40 rounded-lg"
+          src={coverPhoto}
+          alt="coverimage"
+          className="w-12/12 ml-6 mt-4 h-40 rounded-lg object-cover"
         />
       </div>
-      <p className="mr-16 mb-6 mt-6 ml-6 text-lg font-bold"> Genre</p>
+      <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
         {genderList.map((cat) => (
           <li
             key={cat}
             className="m-1 inline-block snap-x gap-3 text-base  font-semibold capitalize"
           >
-            <div className=" tex bg-white h-16 w-32 scroll-m-2 scroll-smooth rounded-md  text-center shadow-xl">
+            <div className=" tex h-16 w-32 scroll-m-2 scroll-smooth rounded-md bg-white  text-center shadow-xl">
               {cat}
             </div>
           </li>
         ))}
       </ul>
       <div className="mt-4 flex">
-        <p className="mr-11 mb-6 mt-4 ml-6 text-xl font-bold">
+        <p className="mb-6 ml-6 mr-11 mt-4 text-xl font-bold">
           Les Plus achetés
         </p>
-        <p className="ml-16 mb-6 mt-5 text-sm">voir tout</p>
+        <p className="mb-6 ml-16 mt-5 text-sm">voir tout</p>
       </div>
       <ul className="mx-1 flex list-none flex-row flex-wrap justify-evenly gap-3 space-x-1  px-1 ">
         <div className="h-50 w-40 rounded-lg  lg:w-1/2">
@@ -87,24 +108,35 @@ function Photos() {
             <input
               type="file"
               className=" file: file:bg-slate-100
-          file:border-cyan-700
           block
           w-full
           file:mt-8
           file:rounded-full
+          file:border-cyan-700
           file:font-normal
           file:opacity-40"
             />
           </div>
         </div>
-        {filterProduct.map(({ id, cover, name, prix, category, genre }) => (
+        {filterProduct.map(({ _id, cover, name, price, category, genre }) => (
           <ProductItem
-            id={id}
+            key={_id}
+            id={_id}
             name={name}
             category={category}
-            prix={prix}
-            cover={MOJO}
+            prix={price}
+            cover={cover}
             genre={genre}
+            addToCart={() =>
+              handleAddToCart({
+                id: _id,
+                name,
+                price,
+                cover,
+                quantity: 1,
+              })
+            }
+            link={`/product/${_id}`}
           />
         ))}
       </ul>

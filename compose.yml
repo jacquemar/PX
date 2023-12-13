@@ -6,11 +6,18 @@ services:
     working_dir: /app
     ports: 
       - 8000:8000
+    networks:
+      - px-app
   server:
     image: px-server-side
     command: sh -c "node index.js"
     working_dir: /app
     ports: 
      - 2000:2000
+    networks:
+      - px-app
+networks:
+  px-app:
+    driver: bridge
 
 

@@ -1,14 +1,15 @@
 // Dans redux/slices/ticketSlice.js
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  ticketNumber: '',
+  ticketNumber: "",
 };
 
 const ticketSlice = createSlice({
-  name: 'ticket',
+  name: "ticket",
   initialState,
+
   reducers: {
     setTicketNumber: (state, action) => {
       state.ticketNumber = action.payload;

@@ -1,7 +1,6 @@
 import Ticket from "../pages/ticket/Ticket";
 import { Link } from "react-router-dom";
 
-
 function ProductItem({ id, cover, name, prix, category, addToCart }) {
   const handleToCart = () => {
     addToCart({ id, name, cover, price: prix });
@@ -10,7 +9,7 @@ function ProductItem({ id, cover, name, prix, category, addToCart }) {
     <li key={`${id} name`} className="">
       <Link to={`/product/${id}`}>
         <img
-          className="h-58 w-40 rounded-lg shadow-md lg:w-1/2"
+          className=" h-58 w-40 rounded-lg object-cover shadow-md lg:w-1/2"
           src={cover}
           alt={`${name} cover`}
         />
@@ -21,10 +20,10 @@ function ProductItem({ id, cover, name, prix, category, addToCart }) {
             <p className="ml-2 mt-1 text-xl capitalize">{name}</p>
           </div>
           <div>
-            <p className="text-gray-500 ml-2 text-base font-thin">{category}</p>
+            <p className="ml-2 text-base font-thin text-gray-500">{category}</p>
           </div>
           <div>
-            <p className="ml-2 mb-2 text-xl font-bold text-pxcolor">
+            <p className="mb-2 ml-2 text-xl font-bold text-pxcolor">
               {prix} XOF
             </p>
           </div>

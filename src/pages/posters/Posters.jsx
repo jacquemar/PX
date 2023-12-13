@@ -1,7 +1,7 @@
 import React, { Children, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Footer, Categorie } from "../../components";
-import MOJO from "../../assets/products/MOJO.jpg";
+import cover from "../../assets/cover.png";
 
 import ProductItem from "../../components/ProductItem";
 import Pagination from "../../components/Pagination";
@@ -11,7 +11,7 @@ function Posters() {
   const [productList, setProductList] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:2000/list")
+    fetch("http://172.232.136.229:80/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -45,14 +45,14 @@ function Posters() {
     <div>
       <Header />
       <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
-      <div className="mx-4 mt-4 mr-1 h-40 rounded-lg">
+      <div className="mx-4 mr-1 mt-4 h-40 rounded-lg">
         <img
-          src="../../src/assets/cover.png"
+          src={cover}
           alt="posterimage"
-          className="w-12/12 mt-4 h-40 rounded-lg"
+          className="w-12/12 ml-6 mt-4 h-40 rounded-lg object-cover"
         />
       </div>
-      <p className="mr-16 mb-6 mt-6 ml-6 text-lg font-bold"> Genre</p>
+      <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
         {genderList.map((cat) => (
           <li
@@ -66,10 +66,10 @@ function Posters() {
         ))}
       </ul>
       <div className="mt-4 flex">
-        <p className="mr-11 mb-6 mt-4 ml-6 text-xl font-bold">
+        <p className="mb-6 ml-6 mr-11 mt-4 text-xl font-bold">
           Les Plus achetés
         </p>
-        <p className="ml-16 mb-6 mt-5 text-sm">voir tout</p>
+        <p className="mb-6 ml-16 mt-5 text-sm">voir tout</p>
       </div>
       <div className="">
         <ul className="mx-1 flex list-none flex-row flex-wrap justify-evenly gap-3 space-x-1  px-1 ">
@@ -95,8 +95,8 @@ function Posters() {
               <input
                 type="file"
                 className=" file: file:bg-slate-100
-          block
->>>>>>> page-poster
+          >>>>>>>
+page-poster block
           w-full
           file:mt-8
           file:rounded-full
@@ -125,7 +125,7 @@ function Posters() {
           setCurrentPage={setCurrentPage}
         />
       </div>
-       <Footer />
+      <Footer />
     </div>
   );
 }

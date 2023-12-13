@@ -1,0 +1,321 @@
+      <div class="p-4 sm:ml-64">
+        <div class="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
+          <div class="mb-4 grid grid-cols-3 gap-4">
+            <div class="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+          <div class="mb-4 flex h-48 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+              <svg
+                class="h-3.5 w-3.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 1v16M1 9h16"
+                />
+              </svg>
+            </p>
+          </div>
+          <div class="mb-4 grid grid-cols-2 gap-4">
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+          <div class="mb-4 flex h-48 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+              <svg
+                class="h-3.5 w-3.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 1v16M1 9h16"
+                />
+              </svg>
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+              <p class="text-2xl text-gray-400 dark:text-gray-500">
+                <svg
+                  class="h-3.5 w-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 text-center">
+        <form encType="multipart/form-data">
+          <div className="form-group">
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor"
+              type="text"
+              name="name"
+              placeholder="Nom"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor"
+              type="text"
+              name="category"
+              placeholder="Catégorie"
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor"
+              type="text"
+              name="genre"
+              placeholder="Genre"
+              onChange={(e) => setGender(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              className="mt-2 rounded-xl border-2 border-pxcolor"
+              type="number"
+              name="price"
+              placeholder="Prix"
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              className="w-26 h-10 gap-10 rounded-xl border-2 border-pxcolor"
+              type="file"
+              name="cover"
+              id="cover"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <button type="submit" onClick={handleSubmit}>
+              Télécharger
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="h-24 w-36 items-center">
+        {loading ? <p>Téléchargement en cours...</p> : <img src={url} alt="" />}
+      </div>
+
+          <div className="p-30 text-center">
+      <div className="p-50% inline-block">
+        <AddProduct />
+      </div>
+    </div>

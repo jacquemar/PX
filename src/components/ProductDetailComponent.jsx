@@ -1,7 +1,5 @@
 // ProductDetailComponent.js
-import React, { useState, useEffect, useContext } from "react";
-import { CartContext } from "../components/CartContext";
-
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function ProductDetailComponent() {
@@ -15,21 +13,6 @@ function ProductDetailComponent() {
       cover: productItem.cover,
       price: productItem.price,
     });
-  };
-
-  const { addToCart } = useContext(CartContext);
-  const product = {
-    name: "Basic Tee 6-Pack",
-    price: "$192",
-    href: "#",
-
-    description:
-      "Une grande variété d'impressions prêtes à suspendre. Transformez votre maison, votre bureau ou votre chambre d'étudiant(e) en galerie d'art indépendant avec de superbes impressions photo, encadrées, montées, métalliques, artistiques, sur toile et rigides.",
-    highlights: [
-      "Pour couvrir d'art les murs tout nus de votre appartement, votre bureau, votre chambre, votre studio, la niche de Médor...",
-      "Imprimé sur du papier d'affiche semi-brillant 185 g/m².",
-      "Dimension A3",
-    ],
   };
 
   useEffect(() => {
@@ -49,7 +32,7 @@ function ProductDetailComponent() {
       <div role="status">
         <svg
           aria-hidden="true"
-          className="dark:text-gray-600 mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200"
+          className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +62,7 @@ function ProductDetailComponent() {
             >
               <li key={productItem.gender}>
                 <div className="flex items-center">
-                  <a className="text-gray-900 mr-2 text-sm font-medium">
+                  <a className="mr-2 text-sm font-medium text-gray-900">
                     {productItem.category}
                   </a>
                   <svg
@@ -88,7 +71,7 @@ function ProductDetailComponent() {
                     viewBox="0 0 16 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    className="text-gray-300 h-5 w-4"
+                    className="h-5 w-4 text-gray-300"
                   >
                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
                   </svg>
@@ -98,7 +81,7 @@ function ProductDetailComponent() {
               <li className="text-sm">
                 <a
                   aria-current="page"
-                  className="text-gray-500 hover:text-gray-600 font-medium"
+                  className="font-medium text-gray-500 hover:text-gray-600"
                 >
                   {productItem.name}
                 </a>
@@ -116,7 +99,7 @@ function ProductDetailComponent() {
               />
             </div>
 
-            <div className="aspect-h-5 aspect-w-4 sm:overflow-hidden sm:rounded-lg lg:aspect-h-4 lg:aspect-w-3">
+            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
               <img
                 src={productItem.cover}
                 alt={productItem.name}
@@ -128,7 +111,7 @@ function ProductDetailComponent() {
           {/* Product info */}
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-              <h1 className="text-gray-900 text-2xl font-bold tracking-tight sm:text-3xl">
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 {productItem.name}
               </h1>
             </div>
@@ -136,7 +119,7 @@ function ProductDetailComponent() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Information du produit</h2>
-              <p className="text-gray-900 text-3xl tracking-tight">
+              <p className="text-3xl tracking-tight text-gray-900">
                 {productItem.price} XOF
               </p>
 
@@ -160,24 +143,14 @@ function ProductDetailComponent() {
                 <h3 className="sr-only">Description</h3>
 
                 <div className="space-y-6">
-                  <p className="text-gray-900 text-base">
-                    {product.description}
-                  </p>
+                  <p className="text-base text-gray-900"></p>
                 </div>
               </div>
 
               <div className="mt-10">
-                <h3 className="text-gray-900 text-sm font-medium">Détails</h3>
+                <h3 className="text-sm font-medium text-gray-900">Détails</h3>
 
-                <div className="mt-4">
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                    {product.highlights.map((highlight) => (
-                      <li key={highlight} className="text-gray-400">
-                        <span className="text-gray-600">{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <div className="mt-4"></div>
               </div>
             </div>
           </div>

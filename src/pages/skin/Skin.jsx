@@ -1,7 +1,7 @@
 import React, { Children, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Footer, Categorie } from "../../components";
-import MOJO from "../../assets/products/MOJO.jpg";
+import cover from "../../assets/skcover.png";
 
 import ProductItem from "../../components/ProductItem";
 import uploadImg from "../../assets/products/upload-01-01.jpg";
@@ -10,7 +10,7 @@ function Skin() {
   const [productList, setProductList] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:2000/list")
+    fetch("http://172.232.136.229:80/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -32,37 +32,38 @@ function Skin() {
     []
   );
   const filterProduct = productList.filter(
-    (product) => product.category === "poster" || product.category === "Poster"
+    (product) =>
+      product.category === "Skin Adhésif" || product.category === "Skin"
   );
   return (
     <div>
       <Header />
       <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
-      <div className="mx-4 mt-4 mr-1 h-40 rounded-lg">
+      <div className="mx-4 mr-1 mt-4 h-40 rounded-lg">
         <img
-          src="../../src/assets/cover.png"
-          alt="posterimage"
-          className="w-12/12 mt-4 h-40 rounded-lg"
+          src={cover}
+          alt="skincover"
+          className="w-12/12 mt-4 h-40 rounded-lg object-cover"
         />
       </div>
-      <p className="mr-16 mb-6 mt-6 ml-6 text-lg font-bold"> Genre</p>
+      <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
         {genderList.map((cat) => (
           <li
             key={cat}
             className="m-1 inline-block snap-x gap-3 text-base  font-semibold capitalize"
           >
-            <div className=" tex bg-white h-16 w-32 scroll-m-2 scroll-smooth rounded-md  text-center shadow-xl">
+            <div className=" tex h-16 w-32 scroll-m-2 scroll-smooth rounded-md bg-white  text-center shadow-xl">
               {cat}
             </div>
           </li>
         ))}
       </ul>
       <div className="mt-4 flex">
-        <p className="mr-11 mb-6 mt-4 ml-6 text-xl font-bold">
+        <p className="mb-6 ml-6 mr-11 mt-4 text-xl font-bold">
           Les Plus achetés
         </p>
-        <p className="ml-16 mb-6 mt-5 text-sm">voir tout</p>
+        <p className="mb-6 ml-16 mt-5 text-sm">voir tout</p>
       </div>
       <ul className="mx-1 flex list-none flex-row flex-wrap justify-evenly gap-3 space-x-1  px-1 ">
         <div className="h-50 w-40 rounded-lg  lg:w-1/2">
@@ -87,11 +88,11 @@ function Skin() {
             <input
               type="file"
               className=" file: file:bg-slate-100
-          file:border-cyan-700
           block
           w-full
           file:mt-8
           file:rounded-full
+          file:border-cyan-700
           file:font-normal
           file:opacity-40"
             />
@@ -103,7 +104,7 @@ function Skin() {
             name={name}
             category={category}
             prix={prix}
-            cover={MOJO}
+            cover={cover}
             genre={genre}
           />
         ))}

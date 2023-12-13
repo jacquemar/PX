@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 const Pagination = ({
@@ -17,10 +17,10 @@ const Pagination = ({
   return (
     <div className="mx-auto mt-4 grid h-full max-w-lg grid-cols-1">
       <div className="col-span-2 flex items-center justify-center">
-        <div className="text-gray-600 bg-gray-100 dark:bg-gray-600 mx-2 flex w-full max-w-[128px] items-center justify-between rounded-lg dark:text-gray-400">
+        <div className="mx-2 flex w-full max-w-[128px] items-center justify-between rounded-lg bg-gray-100 text-gray-600 dark:bg-gray-600 dark:text-gray-400">
           <button
             type="button"
-            className="bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-800 inline-flex h-8 items-center justify-center rounded-l-lg px-1 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="inline-flex h-8 items-center justify-center rounded-l-lg bg-gray-100 px-1 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-800"
             onClick={prevPage}
           >
             <svg
@@ -39,11 +39,11 @@ const Pagination = ({
             <span className="sr-only">Previous page</span>
           </button>
           <span className="mx-1 flex-shrink-0 text-sm font-medium">
-            1 of {product}
+            {currentPage} of {Math.round(totalProduct / productPerPage)}
           </span>
           <button
             type="button"
-            className="bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-800 inline-flex h-8 items-center justify-center rounded-r-lg px-1 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="inline-flex h-8 items-center justify-center rounded-r-lg bg-gray-100 px-1 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-800"
             onClick={nextPage}
           >
             <svg

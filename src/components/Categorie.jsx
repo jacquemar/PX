@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Posters from "../pages/posters/Posters";
+import stickerIcon from "../assets/STICKER-ICON.png";
+import posterIcon from "../assets/POSTER-ICON.png";
+import polaroidIcon from "../assets/POLAROID-ICON.png";
+import carteIcon from "../assets/CARTE-ICON.png";
 
 const Categorie = () => {
   return (
@@ -11,7 +14,7 @@ const Categorie = () => {
           <div className="">
             <Link to="/stickers">
               <img
-                src="../src/assets/STICKER-ICON.png"
+                src={stickerIcon}
                 alt="sticker-icon"
                 className="h12 ml-3 w-12"
               />
@@ -21,7 +24,7 @@ const Categorie = () => {
           <div className="">
             <Link to="/posters">
               <img
-                src="../src/assets/POSTER-ICON.png"
+                src={posterIcon}
                 alt=""
                 className="h12 ml-3 w-12 rounded-full"
               />
@@ -30,18 +33,14 @@ const Categorie = () => {
           </div>
           <div className="">
             <Link to="/photos">
-              <img
-                src="../src/assets/POLAROID-ICON.png"
-                alt=""
-                className="h12 ml-3 w-12 "
-              />
+              <img src={polaroidIcon} alt="" className="h12 ml-3 w-12 " />
               <p className="mt-3 text-center text-xs">Photos Cadres</p>
             </Link>
           </div>
           <div className="">
             <Link to="/skin">
               <img
-                src="../src/assets/CARTE-ICON.png"
+                src={carteIcon}
                 alt=""
                 className="h12 w-12 justify-items-center"
               />
