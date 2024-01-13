@@ -51,72 +51,11 @@ const OrderHistory = () => {
               Factures
             </span>
           </a>
-          <div class="flex md:order-2">
-            <button
-              data-collapse-toggle="navbar-sticky"
-              type="button"
-              class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
-              aria-controls="navbar-sticky"
-              aria-expanded="false"
-            >
-              <span class="sr-only">Ouvrir le menu</span>
-              <svg
-                class="h-5 w-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M1 1h15M1 7h15M1 13h15"
-                />
-              </svg>
-            </button>
-          </div>
+          <div class="flex md:order-2"></div>
           <div
             class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto"
             id="navbar-sticky"
-          >
-            <ul class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
-              <li>
-                <a
-                  href="#"
-                  class="block rounded bg-blue-700 py-2 pl-3 pr-4 text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
-                  aria-current="page"
-                >
-                  Accueil
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block rounded py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
-                  Tickets
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block rounded py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
-                  Catégories
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block rounded py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
+          ></div>
         </div>
       </nav>
       <div></div>
@@ -181,7 +120,7 @@ const OrderHistory = () => {
                         scope="col"
                         class="px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right dark:text-gray-400"
                       >
-                        Statut
+                        Prix
                       </th>
 
                       <th
@@ -208,53 +147,31 @@ const OrderHistory = () => {
                             <span>#{ticket.ticketNumber}</span>
                           </div>
                         </td>
-                        <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-700">
-                          <div class="text-emerald-500 bg-emerald-100/60 inline-flex items-center gap-x-2 rounded-full px-3 py-1 dark:bg-gray-800">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewBox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M10 3L4.5 8.5L2 6"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
-                            <h2 class="text-sm font-normal">Paid</h2>
-                          </div>
-                        </td>
+
                         <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
                           <div class="flex items-center gap-x-2">
-                            <img
-                              class="h-8 w-8 rounded-full object-cover"
-                              src={ticket.deliveryMethod}
-                              alt=""
-                            ></img>
                             <div>
                               <h2 class="text-sm font-medium text-gray-800 dark:text-white ">
-                                {ticket.phoneNumber}
+                                {ticket.orderDate}
                               </h2>
-                              <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
-                                {ticket.deliveryPrice}
-                              </p>
                             </div>
                           </div>
                         </td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm">
                           <div class="flex items-center gap-x-6">
-                            <button class="dark:hover:text-indigo-500 hover:text-indigo-500 text-gray-500 transition-colors duration-200 focus:outline-none dark:text-gray-300">
-                              Archive
-                            </button>
-                            <button class="hover:text-indigo-500 text-blue-500 transition-colors duration-200 focus:outline-none">
-                              Download
-                            </button>
+                            <h2 class="text-gray-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none dark:text-gray-300 dark:hover:text-indigo-500">
+                              {ticket.deliveryPrice}XOF
+                            </h2>
                           </div>
                         </td>
+                        <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200">
+                          <div class="inline-flex items-center gap-x-3">
+                            <span>{ticket.phoneNumber}</span>
+                          </div>
+                        </td>
+                        <button class="inline-flex items-center gap-x-3 text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                          Download
+                        </button>
                       </tr>
                     ))}
                   </tbody>

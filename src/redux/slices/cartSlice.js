@@ -28,15 +28,10 @@ const cartSlice = createSlice({
       const productIndex = state.cartItems.findIndex(
         (item) => item.id === productId
       );
-
       if (productIndex !== -1) {
-        // Si le produit est présent dans le panier
-        if (productIndex !== -1) {
-          // Si le produit est présent dans le panier, augmenter la quantité de 1
-          state.cartItems[productIndex].quantity += 1;
-          state.totalQuantity += 1;
-          state.cart.totalPrice += state.cartItems[productIndex].price;
-        }
+        // Si le produit est présent dans le panier, augmenter la quantité de 1
+        state.cartItems[productIndex].quantity += 1;
+        state.totalPrice += state.cartItems[productIndex].price;
       }
     },
     addTicketNumber: (state, action) => {
@@ -67,7 +62,7 @@ const cartSlice = createSlice({
     updateProductQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
       const productIndex = state.cartItems.findIndex(
-        (item) => item.id === productId
+        (item) => item.id || item._id === productId
       );
 
       if (productIndex !== -1) {
@@ -77,7 +72,7 @@ const cartSlice = createSlice({
     decreaseQuantity: (state, action) => {
       const { productId } = action.payload;
       const productIndex = state.cartItems.findIndex(
-        (item) => item.id === productId
+        (item) => item.id || item._id === productId
       );
 
       if (productIndex !== -1) {
@@ -96,7 +91,7 @@ const cartSlice = createSlice({
       const { productId } = action.payload; // Récupérer l'ID du produit à augmenter
       // Trouver l'index du produit dans le panier
       const productIndex = state.cartItems.findIndex(
-        (item) => item.id === productId
+        (item) => item.id || item._id === productId
       );
       if (productIndex !== -1) {
         // Si le produit est présent dans le panier

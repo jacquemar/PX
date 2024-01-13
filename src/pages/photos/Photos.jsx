@@ -1,5 +1,4 @@
 import React, { Children, useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Footer, Categorie } from "../../components";
 import coverPhoto from "../../assets/photocover.jpg";
 import { useParams } from "react-router-dom";
@@ -8,12 +7,15 @@ import {
   updateTotalQuantity,
   increaseQuantity,
 } from "../../redux/slices/cartSlice";
-import { updateProductList } from "../../redux/slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../components/ProductItem";
-import uploadImg from "../../assets/products/upload-01-01.jpg";
-
 function Photos() {
+  const [selectedCategory, setSelectedCategory] = useState("photo");
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const [productList, setProductList] = useState([]);
+  const totalQuantity = useSelector((state) => state.cart.cartItems.length);
   const handleAddToCart = (product) => {
     const productIndex = cartItems.findIndex((item) => item.id === product.id);
     if (productIndex !== -1) {
@@ -27,7 +29,7 @@ function Photos() {
   };
 
   useEffect(() => {
-    fetch("http://172.232.136.229:80/list")
+    fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -50,6 +52,13 @@ function Photos() {
       acc.includes(product.gender) ? acc : acc.concat(product.gender),
     []
   );
+  const filteredGenderList = genderList.filter((cat) =>
+    productList.some(
+      (product) =>
+        product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+        product.gender === cat
+    )
+  );
   const filterProduct = productList.filter(
     (product) => product.category === "photo" || product.category === "Photo"
   );
@@ -59,16 +68,16 @@ function Photos() {
       <h1 className=" text-center text-xl font-black">
         PHOTOS / PHOTOS CADRES
       </h1>
-      <div className="mx-4 mt-4 h-40 rounded-lg">
+      <div className="mx-12 mt-4 h-40 rounded-lg md:mx-60">
         <img
           src={coverPhoto}
           alt="coverimage"
-          className="w-12/12 ml-6 mt-4 h-40 rounded-lg object-cover"
+          className="w-12/12 mt-4 h-40 rounded-lg object-cover object-center"
         />
       </div>
       <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
-        {genderList.map((cat) => (
+        {filteredGenderList.map((cat) => (
           <li
             key={cat}
             className="m-1 inline-block snap-x gap-3 text-base  font-semibold capitalize"
@@ -89,7 +98,7 @@ function Photos() {
         <div className="h-50 w-40 rounded-lg  lg:w-1/2">
           <div className="h-6 w-36 ">
             <p className="mt-10 text-center font-thin">
-              Personnaliser vos posters
+              Personnaliser vos Photos
             </p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -140,6 +149,7 @@ function Photos() {
           />
         ))}
       </ul>
+      <Footer />
     </div>
   );
 }

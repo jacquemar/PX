@@ -1,16 +1,37 @@
-import React, { Children, useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { Header, Footer, Categorie } from "../../components";
 import coverstick from "../../assets/stcover.png";
-
+import { Link } from "react-router-dom";
 import ProductItem from "../../components/ProductItem";
 import Pagination from "../../components/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  addToCart,
+  updateTotalQuantity,
+  increaseQuantity,
+} from "../../redux/slices/cartSlice";
 
 function Stickers() {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const [productList, setProductList] = useState([]);
+  const totalQuantity = useSelector((state) => state.cart.cartItems.length);
+
+  const handleAddToCart = (product) => {
+    const productIndex = cartItems.findIndex((item) => item.id === product.id);
+    if (productIndex !== -1) {
+      // Si le produit est déjà présent dans le panier, augmentez la quantité de 1
+      dispatch(increaseQuantity({ productId: product.id }));
+    } else {
+      // Sinon, ajoutez le produit au panier avec une quantité de 1
+      dispatch(addToCart(product));
+      dispatch(updateTotalQuantity(totalQuantity + 1));
+    }
+  };
 
   useEffect(() => {
-    fetch("http://172.232.136.229:80/list")
+    fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -24,18 +45,19 @@ function Stickers() {
   const [productPerPage, setProductPerPage] = useState(6);
   const lastProductIndex = currentPage * productPerPage;
   const firstProductIndex = lastProductIndex - productPerPage;
-  const currentProduct = productList.slice(firstProductIndex, lastProductIndex);
-
-  const categories = productList.reduce(
-    (acc, product) =>
-      acc.includes(product.category) ? acc : acc.concat(product.category),
-    []
-  );
+  const [selectedCategory, setSelectedCategory] = useState("sticker");
 
   const genderList = productList.reduce(
     (acc, product) =>
       acc.includes(product.gender) ? acc : acc.concat(product.gender),
     []
+  );
+  const filteredGenderList = genderList.filter((cat) =>
+    productList.some(
+      (product) =>
+        product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+        product.gender === cat
+    )
   );
   const filterProduct = productList.filter(
     (product) =>
@@ -45,16 +67,16 @@ function Stickers() {
     <div>
       <Header />
       <h1 className="text-center text-xl font-black">STICKERS / ÉTIQUETTES</h1>
-      <div className="mx-4 mt-4 h-40 rounded-lg">
+      <div className="mx-12 mt-4 h-40 rounded-lg md:mx-60">
         <img
           src={coverstick}
           alt="stickerimage"
-          className="w-12/12 ml-6 mt-4 h-40 rounded-lg object-cover"
+          className="w-12/12 mt-4 h-40 rounded-lg object-cover"
         />
       </div>
       <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
-        {genderList.map((cat) => (
+        {filteredGenderList.map((cat) => (
           <li
             key={cat}
             className="m-1 inline-block snap-x gap-3 text-base  font-semibold capitalize"
@@ -76,7 +98,7 @@ function Stickers() {
           <div className="h-50 w-40 rounded-lg  lg:w-1/2">
             <div className="h-6 w-36 ">
               <p className="mt-10 text-center font-thin">
-                Personnaliser vos posters
+                Personnaliser vos Stickers
               </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,27 +114,37 @@ function Stickers() {
                 <path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
               </svg>
 
-              <input
-                type="file"
-                className=" file: file:bg-slate-100
-          block
-          w-full
-          file:mt-8
-          file:rounded-full
-          file:border-cyan-700
-          file:font-normal
-          file:opacity-40"
-              />
+              <div className="mt-5 text-center">
+                <Link to="/stickers/StickerDetailsCheckout">
+                  <button
+                    type="button"
+                    class="rounded-lg bg-pxcolor px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Personnaliser
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
-          {filterProduct.map(({ id, cover, name, price, category, genre }) => (
+          {filterProduct.map(({ _id, cover, name, price, category, genre }) => (
             <ProductItem
-              id={id}
+              key={_id}
+              id={_id}
               name={name}
               category={category}
               prix={price}
               cover={cover}
               genre={genre}
+              link={`/product/${_id}`}
+              addToCart={() =>
+                handleAddToCart({
+                  id: _id,
+                  name,
+                  price,
+                  cover,
+                  quantity: 1,
+                })
+              }
             />
           ))}
         </ul>
@@ -124,6 +156,7 @@ function Stickers() {
           setCurrentPage={setCurrentPage}
         />
       </div>
+      <Footer />
     </div>
   );
 }

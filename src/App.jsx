@@ -12,6 +12,7 @@ import Ticket from "./pages/ticket/Ticket";
 import Admin from "./pages/admin/Admin";
 import Stickers from "./pages/Stickers/Stickers";
 import Skin from "./pages/skin/Skin";
+import Cartes from "./pages/cartes/Cartes";
 import Photos from "./pages/photos/Photos";
 import CheckoutForm from "./components/checkout/CheckoutForm";
 import Checkout from "./components/checkout/Checkout";
@@ -19,7 +20,8 @@ import OrderHistory from "./pages/history/OrderHistory";
 import AddProduct from "./components/admin/AddProduct";
 import ProductListView from "./components/admin/ProductListView";
 import TicketListView from "./components/admin/TicketListView";
-
+import NotionManager from "./components/admin/NotionManager";
+import StickerDetailsCheckout from "./components/detailsCheckout/StickerDetailsCheckout";
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +31,7 @@ function App() {
         <Route path="/posters" element={<Posters />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/skin" element={<Skin />} />
+        <Route path="/cartes" element={<Cartes />} />
         <Route path="/stickers" element={<Stickers />} />
         <Route path="/photos" element={<Photos />} />
         <Route path="/checkoutForm" element={<CheckoutForm />} />
@@ -38,6 +41,11 @@ function App() {
         <Route path="/admin/add-product" element={<AddProduct />} />
         <Route path="/admin/product-list-view" element={<ProductListView />} />
         <Route path="/admin/ticket-list-view" element={<TicketListView />} />
+        <Route path="/admin/NotionManager" element={<NotionManager />} />
+        <Route
+          path="/stickers/StickerDetailsCheckout"
+          element={<StickerDetailsCheckout />}
+        />
       </Routes>
     </BrowserRouter>
   );

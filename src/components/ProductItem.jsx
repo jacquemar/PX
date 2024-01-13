@@ -1,4 +1,3 @@
-import Ticket from "../pages/ticket/Ticket";
 import { Link } from "react-router-dom";
 
 function ProductItem({ id, cover, name, prix, category, addToCart }) {

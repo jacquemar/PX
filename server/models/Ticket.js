@@ -13,9 +13,9 @@ const ticketSchema = new mongoose.Schema({
   deliveryMethod: String,
   deliveryPrice: Number,
   totalPrice: Number,
-  phoneNumber: Number,
+  phoneNumber: String,
   ticketNumber: String,
-  orderDate: Date,
+  orderDate: String,
 
   // ... autres champs de la commande
 });

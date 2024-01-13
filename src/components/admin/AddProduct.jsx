@@ -13,6 +13,7 @@ export default function AddProduct() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [gender, setGender] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
 
   const handleChange = (event) => {
@@ -30,6 +31,7 @@ export default function AddProduct() {
       formData.append("category", category);
       formData.append("gender", gender);
       formData.append("price", price);
+      formData.append("description", description);
 
       // Envoyer le formulaire avec le fichier au backend
       const response = await axios.post(
@@ -106,6 +108,22 @@ export default function AddProduct() {
                 placeholder="Genre"
                 onChange={(e) => setGender(e.target.value)}
               ></input>
+            </div>
+            <div>
+              <label
+                for="description"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                type="text"
+                name="description"
+                placeholder="Description"
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
             <div>
               <label

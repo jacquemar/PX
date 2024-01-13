@@ -8,12 +8,11 @@ import { getCartItemsCount } from "../../redux/slices/cartSlice";
 const Footer = () => {
   const dispatch = useDispatch();
   const totalCartItem = useSelector((state) => state.cart.totalQuantity);
+  const ticketList = useSelector((state) => state.cart.ticketList);
   useEffect(() => {
-    // Au chargement du composant Footer, récupérez le nombre total d'articles dans le panier
+    // Au chargement du composant Footer, récupérer le nombre total d'articles dans le panier
     dispatch(getCartItemsCount());
   }, []);
-  console.log(totalCartItem);
-  // Utilisez useSelector pour obtenir le nombre total d'articles depuis le state Redux
   return (
     <div>
       <div>
@@ -66,7 +65,7 @@ const Footer = () => {
                     />
                   </svg>
 
-                  <div className="bg-red-500 absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red  text-xs font-bold text-white dark:border-gray-900">
+                  <div className="bg-red absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500  text-xs font-bold text-white dark:border-gray-900">
                     <span>{totalCartItem}</span>
                   </div>
                 </button>
@@ -100,6 +99,11 @@ const Footer = () => {
                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
                   ></path>
                 </svg>
+                {ticketList.length > 0 && (
+                  <div className="bg-red absolute -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500  text-xs font-bold text-white dark:border-gray-900">
+                    <span>{ticketList.length}</span>
+                  </div>
+                )}
                 <span className="sr-only">Profile</span>
               </Link>
             </button>

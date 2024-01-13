@@ -54,7 +54,7 @@ const Ticket = () => {
   const handleRemoveFromCart = (itemId) => {
     dispatch(removeFromCart(itemId));
     const removedItem = cartItems.find((item) => item.id === itemId);
-    dispatch(removeFromCart(itemId));
+    dispatch(removeFromCart(itemId || item._id));
     // Mettre à jour le prix total en utilisant une action Redux
     dispatch(updateTotalPrice());
   };
@@ -83,7 +83,7 @@ const Ticket = () => {
                   <ul className="-my-8">
                     {cartItems.map((item, index) => (
                       <li
-                        key={`${item.id}-${index}`}
+                        key={`${item.id || item._id}-${index}`}
                         className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0"
                       >
                         <div className="relative shrink-0">
@@ -106,7 +106,9 @@ const Ticket = () => {
                               <button
                                 className="mx-1 mt-2 inline-flex items-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                 type="button"
-                                onClick={() => handleDecreaseQuantity(item.id)}
+                                onClick={() =>
+                                  handleDecreaseQuantity(item.id || item._id)
+                                }
                               >
                                 <span className="sr-only">
                                   Quantity button{" "}
@@ -157,7 +159,9 @@ const Ticket = () => {
                           <div className="absolute right-0 top-0 flex sm:bottom-0 sm:top-auto">
                             <button
                               type="button"
-                              onClick={() => handleRemoveFromCart(item.id)}
+                              onClick={() =>
+                                handleRemoveFromCart(item.id || item._id)
+                              }
                               className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out hover:text-gray-900 focus:shadow"
                             >
                               <svg

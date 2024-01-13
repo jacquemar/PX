@@ -9,6 +9,7 @@
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.10.0",
+    "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.0.14",
     "@notionhq/client": "^2.2.14",
     "@reduxjs/toolkit": "^1.9.5",
@@ -18,9 +19,9 @@
     "cloudinary": "^1.41.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
-    "firebase": "^9.18.0",
     "flowbite": "^2.2.0",
     "formik": "^2.2.9",
+    "headlessui": "^0.0.0",
     "html2pdf.js": "^0.10.1",
     "immutable": "^4.0.0",
     "jspdf": "^2.5.1",

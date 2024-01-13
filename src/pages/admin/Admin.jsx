@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import AddProduct from "../../components/admin/AddProduct";
 import ProductListView from "../../components/admin/ProductListView";
 import logo from "../../assets/logo192.png";
+import NotionManager from "../../components/admin/NotionManager";
 
 function Admin() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -51,81 +52,87 @@ function Admin() {
   };
 
   return (
-    <div className="p-30 mt-6 text-center">
-      <nav class="border-gray-200 bg-white dark:bg-gray-900">
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-          <a
-            href=""
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img src={logo} className="h-8" alt="px logo" />
-            <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-              INTERFACE ADMINISTRATEUR
-            </span>
-          </a>
+    <div>
+      <div className="p-30 mt-6 text-center">
+        <nav class="border-gray-200 bg-white dark:bg-gray-900">
+          <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+            <a
+              href=""
+              className="flex items-center space-x-3 rtl:space-x-reverse"
+            >
+              <img src={logo} className="h-8" alt="px logo" />
+              <span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+                INTERFACE ADMINISTRATEUR
+              </span>
+            </a>
 
-          <div className=" mt-4 w-full md:block md:w-auto">
-            <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
-              <li>
-                <NavLink
-                  to="/admin"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                  activeclassname="bg-pxcolor"
-                  exact={true}
-                >
-                  Accueil 🏡
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin/add-product"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                  activeclassname="bg-pxcolor"
-                  exact={true}
-                >
-                  Ajouter un produit ➕
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin/product-list-view"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                  activeclassname=" bg-pxcolor"
-                  exact={true}
-                >
-                  Afficher les Produits 📃
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin/ticket-list-view"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                  activeclassname=" bg-pxcolor"
-                  exact={true}
-                >
-                  Afficher les Tickets 🗂
-                </NavLink>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
+            <div className=" mt-4 w-full md:block md:w-auto">
+              <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
+                <li>
+                  <NavLink
+                    to="/admin"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname="bg-pxcolor"
+                    exact={true}
+                  >
+                    Accueil 🏡
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/add-product"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname="bg-pxcolor"
+                    exact={true}
+                  >
+                    Ajouter un produit ➕
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/product-list-view"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname=" bg-pxcolor"
+                    exact={true}
+                  >
+                    Afficher les Produits 📃
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/ticket-list-view"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname=" bg-pxcolor"
+                    exact={true}
+                  >
+                    Afficher les Tickets 🗂
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/NotionManager"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname=" bg-pxcolor"
+                    exact={true}
+                  >
+                    Notion Manager 🗄
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/AddCategory"
+                    className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                    activeclassname=" bg-pxcolor"
+                    exact={true}
+                  >
+                    Ajouter une Catégorie 🏷
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </div>
   );
 }

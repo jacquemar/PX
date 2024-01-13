@@ -14,7 +14,7 @@ import {
   increaseQuantity,
 } from "../../redux/slices/cartSlice";
 
-function Posters() {
+function Cartes() {
   const [productList, setProductList] = useState([]);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -48,7 +48,7 @@ function Posters() {
   const lastProductIndex = currentPage * productPerPage;
   const firstProductIndex = lastProductIndex - productPerPage;
   const currentProduct = productList.slice(firstProductIndex, lastProductIndex);
-  const [selectedCategory, setSelectedCategory] = useState("poster");
+  const [selectedCategory, setSelectedCategory] = useState("cartes");
 
   const categories = productList.reduce(
     (acc, product) =>
@@ -69,12 +69,12 @@ function Posters() {
     )
   );
   const filterProduct = productList.filter(
-    (product) => product.category === "poster" || product.category === "Poster"
+    (product) => product.category === "carte" || product.category === "cartes"
   );
   return (
     <div>
       <Header />
-      <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
+      <h1 className="text-center text-xl font-black">CARTES / MENU</h1>
       <div className="mx-12 mt-4 h-40 rounded-lg md:mx-60">
         <img
           src={cover}
@@ -168,4 +168,4 @@ function Posters() {
   );
 }
 
-export default Posters;
+export default Cartes;

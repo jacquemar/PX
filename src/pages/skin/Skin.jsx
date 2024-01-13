@@ -4,13 +4,39 @@ import { Header, Footer, Categorie } from "../../components";
 import cover from "../../assets/skcover.png";
 
 import ProductItem from "../../components/ProductItem";
-import uploadImg from "../../assets/products/upload-01-01.jpg";
+import {
+  addToCart,
+  updateTotalQuantity,
+  increaseQuantity,
+} from "../../redux/slices/cartSlice";
+import Pagination from "../../components/Pagination";
+import { useDispatch, useSelector } from "react-redux";
 
 function Skin() {
   const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalQuantity = useSelector((state) => state.cart.cartItems.length);
+  const [selectedCategory, setSelectedCategory] = useState("skin adhésif");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productPerPage, setProductPerPage] = useState(6);
+  const lastProductIndex = currentPage * productPerPage;
+  const firstProductIndex = lastProductIndex - productPerPage;
+
+  const handleAddToCart = (product) => {
+    const productIndex = cartItems.findIndex((item) => item.id === product.id);
+    if (productIndex !== -1) {
+      // Si le produit est déjà présent dans le panier, augmentez la quantité de 1
+      dispatch(increaseQuantity({ productId: product.id }));
+    } else {
+      // Sinon, ajoutez le produit au panier avec une quantité de 1
+      dispatch(addToCart(product));
+      dispatch(updateTotalQuantity(totalQuantity + 1));
+    }
+  };
 
   useEffect(() => {
-    fetch("http://172.232.136.229:80/list")
+    fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -31,6 +57,13 @@ function Skin() {
       acc.includes(product.gender) ? acc : acc.concat(product.gender),
     []
   );
+  const filteredGenderList = genderList.filter((cat) =>
+    productList.some(
+      (product) =>
+        product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+        product.gender === cat
+    )
+  );
   const filterProduct = productList.filter(
     (product) =>
       product.category === "Skin Adhésif" || product.category === "Skin"
@@ -38,8 +71,8 @@ function Skin() {
   return (
     <div>
       <Header />
-      <h1 className="text-center text-xl font-black">POSTERS / AFFICHES</h1>
-      <div className="mx-4 mr-1 mt-4 h-40 rounded-lg">
+      <h1 className="text-center text-xl font-black">SKIN / HABILLAGE</h1>
+      <div className="mx-12 mt-4 h-40 rounded-lg md:mx-60">
         <img
           src={cover}
           alt="skincover"
@@ -48,7 +81,7 @@ function Skin() {
       </div>
       <p className="mb-6 ml-6 mr-16 mt-6 text-lg font-bold"> Genre</p>
       <ul className="relative flex items-center overflow-x-auto">
-        {genderList.map((cat) => (
+        {filteredGenderList.map((cat) => (
           <li
             key={cat}
             className="m-1 inline-block snap-x gap-3 text-base  font-semibold capitalize"
@@ -69,7 +102,7 @@ function Skin() {
         <div className="h-50 w-40 rounded-lg  lg:w-1/2">
           <div className="h-6 w-36 ">
             <p className="mt-10 text-center font-thin">
-              Personnaliser vos posters
+              Personnaliser vos Skins Adhésifs
             </p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,17 +131,36 @@ function Skin() {
             />
           </div>
         </div>
-        {filterProduct.map(({ id, cover, name, prix, category, genre }) => (
+        {filterProduct.map(({ _id, cover, name, price, category, genre }) => (
           <ProductItem
-            id={id}
+            key={_id}
+            id={_id}
             name={name}
             category={category}
-            prix={prix}
+            prix={price}
             cover={cover}
             genre={genre}
+            link={`/product/${_id}`}
+            addToCart={() =>
+              handleAddToCart({
+                id: _id,
+                name,
+                price,
+                cover,
+                quantity: 1,
+              })
+            }
           />
         ))}
       </ul>
+      <div className="mb-24">
+        <Pagination
+          totalProduct={filterProduct.length}
+          productPerPage={productPerPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+      <Footer />
     </div>
   );
 }

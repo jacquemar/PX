@@ -132,7 +132,7 @@ function TicketListView() {
                     <td className="px-6 py-4">{ticket.deliveryPrice}</td>
                     <td className="px-6 py-4">{ticket.totalPrice}</td>
                     <td className="px-6 py-4">{ticket.phoneNumber}</td>
-                    <td className="px-6 py-4">{ticket.date}</td>
+                    <td className="px-6 py-4">{ticket.orderDate}</td>
                     <td className="px-6 py-4">
                       <button
                         id="dropdownNotificationButton"

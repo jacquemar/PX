@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import store from "../redux/store";
 import {
   addToCart,
   removeFromCart,
@@ -23,10 +22,8 @@ function ShoppingList() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const productList = useSelector((state) => state.product.productList);
   const totalQuantity = useSelector((state) => state.cart.cartItems.length);
-  const ProductQuantity = useSelector((state) => state.cart.cartItems.itemId);
 
   useEffect(() => {
-    //http://
     fetch("http://localhost:2000/list")
       .then((res) => res.json())
       .then((data) => {
@@ -44,8 +41,9 @@ function ShoppingList() {
   };
 
   const { id } = useParams();
-  const productId = productList?.find((product) => product._id === id);
+  const productId = productList?.find((product) => product.id === id);
   const currentProduct = productList.slice(firstProductIndex, lastProductIndex);
+
   const categories = productList?.reduce(
     (acc, product) =>
       acc.includes(product.category) ? acc : acc.concat(product.category),
@@ -56,7 +54,9 @@ function ShoppingList() {
     dispatch(removeFromCart(itemId));
   };
   const handleAddToCart = (product) => {
-    const productIndex = cartItems.findIndex((item) => item.id === product.id);
+    const productIndex = cartItems.findIndex((item) => item.id === product._id);
+    console.log("Product Index:", productIndex);
+    console.log("Current Cart Items:", cartItems);
     if (productIndex !== -1) {
       // Si le produit est déjà présent dans le panier, augmentez la quantité de 1
       dispatch(increaseQuantity({ productId: product.id }));
@@ -91,7 +91,7 @@ function ShoppingList() {
                       quantity: 1,
                     })
                   }
-                  link={`/product/${_id}`}
+                  link={`/product/${id}`}
                 />
               )
             )

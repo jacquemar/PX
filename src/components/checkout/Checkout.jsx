@@ -34,7 +34,16 @@ const Checkout = () => {
 
   // Fonction de rappel pour gérer les modifications du numéro de téléphone
   const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+    let phoneNumberValue = event.target.value;
+    phoneNumberValue = phoneNumberValue.replace(/\D/g, "");
+    if (phoneNumberValue.length <= 13) {
+      if (!phoneNumberValue.startsWith("+225")) {
+        phoneNumberValue = "+225" + phoneNumberValue.substr(3);
+      }
+      setPhoneNumber(phoneNumberValue);
+    } else {
+      console.log("longueur non valide");
+    }
   };
 
   const calculateDeliveryPrice = (selectedCommune, selectedMethod) => {
@@ -119,6 +128,8 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
 
+  const currentDate = format(new Date(), "dd/MM/yyyy HH:mm:ss");
+
   useEffect(() => {
     const calculatedNetAPayer =
       parseFloat(totalPrice) + parseFloat(deliveryPrice);
@@ -126,6 +137,23 @@ const Checkout = () => {
   }, [totalPrice, deliveryPrice]);
 
   const [pdfContent, setPdfContent] = useState("");
+
+  //ORANGE SMS
+  const sendSMS = async () => {
+    const phoneNumber = phoneNumber;
+    const message = `Félicitation🎉, vous venez de passer une commande pour un total de ${totalPrice} à livrer à ${selectedCommune}`;
+
+    try {
+      await axios.post("http://localhost:2000/send-sms", {
+        phoneNumber,
+        message,
+      });
+      console.log("SMS envoyé avec succès");
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du SMS :", error);
+    }
+  };
+
   const handleGeneratePDF = async () => {
     // enregistrement en BD
     try {
@@ -138,10 +166,12 @@ const Checkout = () => {
         totalPrice: totalPrice,
         phoneNumber: phoneNumber,
         ticketNumber: ticketNumber,
+        orderDate: currentDate,
       });
 
       if (response.ok) {
         toast.success("Commande passée avec succès ! ");
+        sendSMS();
         const pdfContent = generatePDF(); // Générer le PDF
         setPdfContent(pdfContent); // Mettre à jour l'état local du contenu PDF
         setShowInvoice(true); // Afficher la facture
@@ -159,7 +189,6 @@ const Checkout = () => {
     }
   };
 
-  // Fonction pour générer et télécharger le fichier PDF
   // Fonction pour générer et télécharger le fichier PDF
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -472,8 +501,8 @@ const Checkout = () => {
             </label>
             <div className="relative">
               <input
-                type="number"
-                id=" numero"
+                type="text"
+                id="numero"
                 name="numero"
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
@@ -623,7 +652,7 @@ const Checkout = () => {
                   setShowInvoice(true),
                   dispatch(resetCart(cartItems));
                 setTimeout(() => {
-                  navigate("/history"); // Naviguer vers la page d'historique
+                  navigate("/"); // Naviguer vers la page d'historique
                 }, 3000);
               } else {
                 toast.error("Veuillez remplir tous les champs requis.");
